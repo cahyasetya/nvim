@@ -1,3 +1,46 @@
--- bootstrap lazy.nvim, LazyVim and your plugins
-require("config.lazy")
-require("config.keymaps")
+-- Organized Neovim Configuration for Ghostty
+-- This configuration is organized into categories for better maintenance
+
+-- Load core modules
+require("config.lazy")    -- Plugin manager setup
+require("config.keymaps") -- Keybindings
+require("config.ui").setup() -- UI configuration
+
+-- Basic editor settings
+vim.o.tabstop = 2         -- Tab width
+vim.o.shiftwidth = 2      -- Indentation width
+vim.o.expandtab = true    -- Use spaces instead of tabs
+vim.o.softtabstop = 2     -- Soft tab width
+vim.o.smartindent = true  -- Smart auto-indenting
+
+-- Disable lazyredraw to avoid Noice issues
+vim.o.lazyredraw = false
+
+-- Window separator characters
+vim.opt.fillchars:append({
+  horiz = '━',     -- Horizontal line
+  horizup = '┻',   -- Horizontal line with up connector
+  horizdown = '┳', -- Horizontal line with down connector
+  vert = '┃',      -- Vertical line
+  vertleft = '┫',  -- Vertical line with left connector
+  vertright = '┣', -- Vertical line with right connector
+  verthoriz = '╋', -- Vertical-horizontal intersection
+})
+
+-- Always show status line
+vim.opt.laststatus = 3
+
+-- Load terminal-specific configurations if running in Ghostty
+vim.defer_fn(function()
+  -- Check if Ghostty is detected
+  if vim.env.TERM_PROGRAM == "ghostty" then
+    -- Notify user
+    vim.notify("Ghostty terminal detected. Applying optimizations.", vim.log.levels.INFO)
+    
+    -- Initialize transparency
+    pcall(function() require("config.transparency").setup() end)
+  end
+  
+  -- Always set up the welcome screen regardless of terminal
+  pcall(function() require("config.ghostty-welcome").setup() end)
+end, 100)
