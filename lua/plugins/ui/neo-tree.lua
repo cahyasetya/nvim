@@ -8,6 +8,15 @@ return {
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
+  init = function()
+    vim.g.neo_tree_remove_legacy_commands = true
+    if vim.fn.argc() == 1 then
+      local stat = vim.loop.fs_stat(vim.fn.argv(0))
+      if stat and stat.type == "directory" then
+        require("neo-tree")
+      end
+    end
+  end,
   keys = {
     { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Explorer" },
   },
@@ -28,6 +37,8 @@ return {
     enable_diagnostics = true,
     popup_border_style = "rounded",
     sort_case_insensitive = true,
+    disable_netrw = true,
+    hijack_netrw = false,
     
     filesystem = {
       filtered_items = {
