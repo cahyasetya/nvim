@@ -31,6 +31,9 @@ return {
         -- Make window separators more visible
         highlights.WinSeparator = { fg = colors.blue7, bg = "NONE" }
         highlights.VertSplit = { fg = colors.blue7, bg = "NONE" }
+
+        -- Disable sign column background
+        highlights.SignColumn = { fg = "NONE", bg = "NONE" }
         
         -- Enhance diagnostics visibility on transparent background
         highlights.DiagnosticError = { fg = "#ff5555", bold = true }
@@ -39,7 +42,13 @@ return {
         highlights.DiagnosticHint = { fg = "#8aff80", bold = true }
         
         -- More visible line number for current line
-        highlights.CursorLineNr = { fg = colors.orange, bold = true }
+        highlights.CursorLineNr = { fg = "#f0c674", bold = true, bg = "NONE" }
+        -- Custom line number colors
+        highlights.LineNrAbove = { fg = "#cc6666", bg = "NONE" }
+        highlights.LineNrBelow = { fg = "#8abeb7", bg = "NONE" }
+        highlights.LineNr = { fg = "#cc6666", bg = "NONE" }
+        -- Remove sign column background
+        highlights.SignColumn = { fg = "NONE", bg = "NONE" }
         
         -- More visible indent guides
         highlights.IndentBlanklineChar = { fg = colors.dark5 }

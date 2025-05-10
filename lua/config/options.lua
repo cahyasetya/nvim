@@ -16,6 +16,10 @@ vim.opt.scrolloff = 8          -- Keep 8 lines visible above/below cursor
 vim.opt.sidescrolloff = 8      -- Keep 8 columns visible left/right of cursor
 vim.opt.showmode = false       -- Don't show mode (shown in statusline)
 
+-- Custom line number colors
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#cc6666", italic = true })
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f0c674", bold = true })
+
 -- Ghostty-specific terminal settings
 if vim.env.TERM_PROGRAM == "ghostty" then
   -- Fix potential cursor display issues in Ghostty
@@ -29,8 +33,23 @@ if vim.env.TERM_PROGRAM == "ghostty" then
   vim.opt.ttimeoutlen = 10
 end
 
--- Fix sign column to prevent UI shifts
-vim.opt.signcolumn = "yes:1"   -- Always show sign column (fixed width)
+-- Set sign column to no to eliminate the blue bar
+vim.opt.signcolumn = "no"
+
+-- Try to forcefully clear the problematic blue bar
+vim.cmd([[
+  augroup RemoveBlueBar
+    autocmd!
+    autocmd VimEnter,BufEnter,WinEnter * hi clear SignColumn
+    autocmd VimEnter,BufEnter,WinEnter * hi Normal guibg=NONE ctermbg=NONE
+    autocmd VimEnter,BufEnter,WinEnter * hi SignColumn guibg=NONE ctermbg=NONE
+    autocmd VimEnter,BufEnter,WinEnter * hi FoldColumn guibg=NONE ctermbg=NONE
+    autocmd VimEnter,BufEnter,WinEnter * hi LineNr guibg=NONE ctermbg=NONE
+    autocmd VimEnter,BufEnter,WinEnter * hi EndOfBuffer guibg=NONE ctermbg=NONE
+    autocmd VimEnter,BufEnter,WinEnter * hi NormalNC guibg=NONE ctermbg=NONE
+    autocmd VimEnter,BufEnter,WinEnter * set signcolumn=no
+  augroup END
+]])
 
 -- Enable mouse support
 vim.opt.mouse = "a"            -- Enable mouse in all modes
@@ -52,3 +71,9 @@ vim.opt.incsearch = true       -- Show search matches as you type
 vim.opt.backup = false         -- Don't create backup files
 vim.opt.swapfile = false       -- Don't create swap files
 vim.opt.undofile = true        -- Enable persistent undo
+
+-- Initial highlight setup
+vim.cmd([[
+  highlight LineNr guifg=#cc6666
+  highlight CursorLineNr guifg=#f0c674 gui=bold
+]])

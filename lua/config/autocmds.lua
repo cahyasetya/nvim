@@ -59,3 +59,41 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+-- Set line number colors on color scheme change
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    -- Line numbers
+    vim.api.nvim_set_hl(0, "LineNr", { fg = "#cc6666", italic = true })
+    -- Current line number (gold)
+    vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f0c674", bold = true })
+  end,
+  group = vim.api.nvim_create_augroup("CustomLineNumbers", { clear = true }),
+})
+
+-- Ensure sign column is disabled with the most aggressive approach
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter", "WinEnter", "BufRead", "BufNewFile", "FileType", "CursorMoved", "CursorMovedI"}, {
+  pattern = {"*"},
+  callback = function()
+    -- Forcibly disable sign column
+    vim.opt.signcolumn = "no"
+
+    -- Clear ALL potential highlight groups that could cause the blue bar
+    vim.cmd([[
+      highlight clear SignColumn
+      highlight SignColumn guibg=NONE ctermbg=NONE
+      highlight LineNr guifg=#cc6666 guibg=NONE ctermbg=NONE
+      highlight CursorLineNr guifg=#f0c674 gui=bold guibg=NONE ctermbg=NONE
+
+      " Clear any diagnostic/git signs that might be auto-enabling the column
+      highlight clear DiagnosticSignError
+      highlight clear DiagnosticSignWarn
+      highlight clear DiagnosticSignInfo
+      highlight clear DiagnosticSignHint
+      highlight clear GitSignsAdd
+      highlight clear GitSignsChange
+      highlight clear GitSignsDelete
+    ]])
+  end,
+  group = vim.api.nvim_create_augroup("AggressiveSignColumnRemoval", { clear = true }),
+})

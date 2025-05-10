@@ -36,11 +36,30 @@ vim.defer_fn(function()
   if vim.env.TERM_PROGRAM == "ghostty" then
     -- Notify user
     vim.notify("Ghostty terminal detected. Applying optimizations.", vim.log.levels.INFO)
-    
+
     -- Initialize transparency
     pcall(function() require("config.transparency").setup() end)
   end
-  
+
   -- Always set up the welcome screen regardless of terminal
   pcall(function() require("config.ghostty-welcome").setup() end)
 end, 100)
+
+-- Final override to ensure no blue bar on the left of line numbers
+vim.defer_fn(function()
+  -- Disable sign column completely
+  vim.opt.signcolumn = "no"
+
+  -- Override ANY potential highlight groups that could be causing the blue bar
+  vim.cmd([[
+    highlight clear SignColumn
+    highlight SignColumn guibg=NONE ctermbg=NONE
+    highlight clear LineNr
+    highlight LineNr guifg=#cc6666 guibg=NONE ctermbg=NONE
+    highlight clear CursorLineNr
+    highlight CursorLineNr guifg=#f0c674 gui=bold guibg=NONE ctermbg=NONE
+    highlight FoldColumn guibg=NONE ctermbg=NONE
+    highlight EndOfBuffer guibg=NONE ctermbg=NONE
+    redraw!
+  ]])
+end, 500) -- Delay to ensure it runs after everything else

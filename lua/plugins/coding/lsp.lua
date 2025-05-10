@@ -25,6 +25,7 @@ return {
           prefix = "●",
         },
         severity_sort = true,
+        signs = false  -- Don't show diagnostic signs in the signcolumn
       },
       inlay_hints = {
         enabled = false,

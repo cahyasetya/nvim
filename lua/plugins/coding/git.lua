@@ -5,6 +5,7 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
     opts = {
+      signcolumn = false,  -- Disable signs in signcolumn
       signs = {
         add = { text = "▎" },
         change = { text = "▎" },
