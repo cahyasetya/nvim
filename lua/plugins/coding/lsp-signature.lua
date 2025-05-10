@@ -3,6 +3,9 @@ return {
   -- Function signature as you type
   "ray-x/lsp_signature.nvim",
   event = "VeryLazy",
+  dependencies = {
+    "hrsh7th/nvim-cmp", -- Ensure nvim-cmp is loaded first
+  },
   opts = {
     bind = true,
     handler_opts = {

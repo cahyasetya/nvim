@@ -5,15 +5,10 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "folke/neodev.nvim", opts = {} },
+      -- Removed neodev.nvim to fix warnings
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      {
-        "hrsh7th/cmp-nvim-lsp",
-        cond = function()
-          return require("lazyvim.util").has("nvim-cmp")
-        end,
-      },
+      { "hrsh7th/cmp-nvim-lsp", dependencies = { "hrsh7th/nvim-cmp" } },
     },
     opts = {
       diagnostics = {
@@ -25,7 +20,13 @@ return {
           prefix = "●",
         },
         severity_sort = true,
-        signs = false  -- Don't show diagnostic signs in the signcolumn
+        float = {
+          border = "rounded",
+          source = "if_many",
+        },
+        signs = {
+          active = false
+        },
       },
       inlay_hints = {
         enabled = false,
@@ -41,14 +42,25 @@ return {
         lua_ls = {
           settings = {
             Lua = {
+              runtime = {
+                -- Tell the language server which version of Lua you're using
+                version = 'LuaJIT',
+              },
+              diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { 'vim' },
+              },
               workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
                 checkThirdParty = false,
+              },
+              -- Do not send telemetry data
+              telemetry = {
+                enable = false,
               },
               completion = {
                 callSnippet = "Replace",
-              },
-              diagnostics = {
-                globals = { "vim" },
               },
             },
           },

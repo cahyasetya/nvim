@@ -3,8 +3,9 @@ return {
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
-    version = false, 
-    event = "InsertEnter",
+    version = false,
+    event = "VimEnter", -- Load at startup
+    priority = 1000, -- High priority to ensure it loads before dependents
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",

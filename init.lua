@@ -1,6 +1,9 @@
 -- Organized Neovim Configuration for Ghostty
 -- This configuration is organized into categories for better maintenance
 
+-- Pre-load nvim-cmp to fix loading issues
+pcall(function() require("config.fix-cmp-preload").setup() end)
+
 -- Load core modules
 require("config.lazy")    -- Plugin manager setup
 require("config.keymaps") -- Keybindings
@@ -49,6 +52,23 @@ end, 100)
 vim.defer_fn(function()
   -- Disable sign column completely
   vim.opt.signcolumn = "no"
+
+  -- Configure diagnostic settings directly to avoid errors
+  vim.diagnostic.config({
+    signs = false,
+    underline = true,
+    update_in_insert = false,
+    virtual_text = {
+      spacing = 4,
+      source = "if_many",
+      prefix = "●",
+    },
+    severity_sort = true,
+    float = {
+      border = "rounded",
+      source = "if_many",
+    },
+  })
 
   -- Override ANY potential highlight groups that could be causing the blue bar
   vim.cmd([[
