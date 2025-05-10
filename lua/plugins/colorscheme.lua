@@ -44,8 +44,8 @@ return {
         -- More visible line number for current line
         highlights.CursorLineNr = { fg = "#f0c674", bold = true, bg = "NONE" }
         -- Custom line number colors
-        highlights.LineNrAbove = { fg = "#cc6666", bg = "NONE" }
-        highlights.LineNrBelow = { fg = "#8abeb7", bg = "NONE" }
+        highlights.LineNrAbove = { fg = "#8aff80", bg = "NONE" } -- Calm green for above cursor
+        highlights.LineNrBelow = { fg = "#ff9580", bg = "NONE" } -- Calm red for below cursor
         highlights.LineNr = { fg = "#cc6666", bg = "NONE" }
         -- Remove sign column background
         highlights.SignColumn = { fg = "NONE", bg = "NONE" }

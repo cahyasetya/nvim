@@ -56,6 +56,10 @@ vim.defer_fn(function()
     highlight SignColumn guibg=NONE ctermbg=NONE
     highlight clear LineNr
     highlight LineNr guifg=#cc6666 guibg=NONE ctermbg=NONE
+    highlight clear LineNrAbove
+    highlight LineNrAbove guifg=#8aff80 guibg=NONE ctermbg=NONE
+    highlight clear LineNrBelow
+    highlight LineNrBelow guifg=#ff9580 guibg=NONE ctermbg=NONE
     highlight clear CursorLineNr
     highlight CursorLineNr guifg=#f0c674 gui=bold guibg=NONE ctermbg=NONE
     highlight FoldColumn guibg=NONE ctermbg=NONE

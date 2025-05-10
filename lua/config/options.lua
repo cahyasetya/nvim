@@ -18,6 +18,8 @@ vim.opt.showmode = false       -- Don't show mode (shown in statusline)
 
 -- Custom line number colors
 vim.api.nvim_set_hl(0, "LineNr", { fg = "#cc6666", italic = true })
+vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#8aff80", italic = true })
+vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#ff9580", italic = true })
 vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f0c674", bold = true })
 
 -- Ghostty-specific terminal settings
@@ -75,5 +77,7 @@ vim.opt.undofile = true        -- Enable persistent undo
 -- Initial highlight setup
 vim.cmd([[
   highlight LineNr guifg=#cc6666
+  highlight LineNrAbove guifg=#8aff80
+  highlight LineNrBelow guifg=#ff9580
   highlight CursorLineNr guifg=#f0c674 gui=bold
 ]])
