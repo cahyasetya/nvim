@@ -130,7 +130,6 @@ return {
     opts = {
       ensure_installed = {
         "lua_ls",
-        -- Removed "tsserver" from this list - will configure it separately
         "jsonls",
         "html",
         "cssls",
@@ -139,48 +138,17 @@ return {
     },
     dependencies = {
       "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
     },
     config = function(_, opts)
-      -- Ensure proper server names are used
+      -- Only run Mason setup
       local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup(opts)
-      
-      -- Set up TypeScript server separately
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          require("lspconfig")[server_name].setup({})
-        end,
-        ["tsserver"] = function()
-          require("lspconfig").tsserver.setup({
-            settings = {
-              typescript = {
-                inlayHints = {
-                  includeInlayParameterNameHints = "all",
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayVariableTypeHints = true,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayEnumMemberValueHints = true,
-                }
-              },
-              javascript = {
-                inlayHints = {
-                  includeInlayParameterNameHints = "all",
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayVariableTypeHints = true,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayEnumMemberValueHints = true,
-                }
-              }
-            }
-          })
-        end
-      })
+      -- Let LazyVim handle everything else
     end
   },
+
+  -- No explicit TypeScript configuration needed
   
   -- LSP UI enhancements
   {
