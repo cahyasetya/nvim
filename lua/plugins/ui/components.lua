@@ -63,7 +63,7 @@ return {
         offsets = {
           {
             filetype = "neo-tree",
-            text = "File Explorer",
+            text = "",
             highlight = "Directory",
             text_align = "left",
           },

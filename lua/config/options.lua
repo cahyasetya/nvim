@@ -2,11 +2,17 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+-- Set leader key explicitly (Space key)
+vim.g.mapleader = " "
+
 -- UI Improvements for Ghostty
 vim.opt.termguicolors = true   -- Enable true color support
 vim.opt.cursorline = true      -- Highlight the current line
 vim.opt.pumblend = 10          -- Make popup menu semi-transparent
 vim.opt.winblend = 10          -- Make floating windows semi-transparent
+
+-- Set font to JetBrains Mono
+vim.opt.guifont = "JetBrains Mono:h12"
 
 -- Line numbers and text display
 vim.opt.number = true          -- Show line numbers

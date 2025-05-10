@@ -1,31 +1,53 @@
--- Completion plugins
+-- Consolidated nvim-cmp (completion) configuration
 return {
-  -- Autocompletion
+  -- Core nvim-cmp plugin
   {
     "hrsh7th/nvim-cmp",
-    version = false,
-    event = "VimEnter", -- Load at startup
+    lazy = false, -- Load as early as possible
     priority = 1000, -- High priority to ensure it loads before dependents
     dependencies = {
+      -- Sources
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
+      -- Snippets
+      {
+        "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp",
+        dependencies = {
+          "rafamadriz/friendly-snippets",
+          config = function()
+            require("luasnip.loaders.from_vscode").lazy_load()
+          end,
+        },
+      },
+      -- Icons
       "onsails/lspkind.nvim",
     },
-    opts = function()
+    config = function()
+      -- Avoid double configuration
+      if _G.cmp_configured then return end
+      _G.cmp_configured = true
+      
       local cmp = require("cmp")
       local lspkind = require("lspkind")
-
-      return {
+      local luasnip = require("luasnip")
+      
+      -- Setup completion
+      cmp.setup({
         completion = {
           completeopt = "menu,menuone,noinsert",
         },
+        
+        -- Snippet handling
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
+        
+        -- Keymappings
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -39,12 +61,16 @@ return {
             select = true,
           }),
         }),
+        
+        -- Completion sources in priority order
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
           { name = "path" },
         }),
+        
+        -- Formatting with icons
         formatting = {
           format = lspkind.cmp_format({
             mode = "symbol_text",
@@ -79,6 +105,8 @@ return {
             },
           }),
         },
+        
+        -- Window appearance
         window = {
           completion = {
             border = "rounded",
@@ -94,37 +122,25 @@ return {
             max_height = 12,
           },
         },
+        
         experimental = {
           ghost_text = false,
         },
-      }
+      })
+      
+      -- Luasnip configuration
+      luasnip.config.setup({
+        history = true,
+        delete_check_events = "TextChanged",
+      })
+      
+      -- Setup luasnip keymaps
+      vim.keymap.set("i", "<Tab>", function()
+        return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<Tab>"
+      end, { expr = true, silent = true })
+      
+      vim.keymap.set("s", "<Tab>", function() luasnip.jump(1) end)
+      vim.keymap.set({"i", "s"}, "<S-Tab>", function() luasnip.jump(-1) end)
     end,
-  },
-
-  -- Snippets
-  {
-    "L3MON4D3/LuaSnip",
-    build = "make install_jsregexp",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
-      end,
-    },
-    opts = {
-      history = true,
-      delete_check_events = "TextChanged",
-    },
-    keys = {
-      {
-        "<tab>",
-        function()
-          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-        end,
-        expr = true, silent = true, mode = "i",
-      },
-      { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
-      { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-    },
   },
 }

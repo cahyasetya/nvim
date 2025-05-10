@@ -3,6 +3,8 @@
 -- Add any additional keymaps here
 vim.api.nvim_set_keymap("n", "<C-A-a>", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
 
+-- Neo-tree file explorer keybindings are now handled in config/explorer.lua
+
 -- Bind gs to LSP's document symbol to list functions in the file
 vim.keymap.set('n', 'gs', function()
   vim.lsp.buf.document_symbol()

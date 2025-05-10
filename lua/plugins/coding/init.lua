@@ -4,16 +4,16 @@
 return {
   -- Language support and syntax highlighting
   { import = "plugins.coding.syntax" },
-  
-  -- Completion and snippets
-  { import = "plugins.coding.completion" },
-  
+
+  -- Completion and snippets (consolidated)
+  { import = "plugins.coding.cmp" },
+
   -- Git integration
   { import = "plugins.coding.git" },
-  
+
   -- LSP configuration
   { import = "plugins.coding.lsp" },
-  
+
   -- Formatting and linting
   { import = "plugins.coding.format" },
 }
