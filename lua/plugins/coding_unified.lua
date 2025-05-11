@@ -14,7 +14,7 @@ return {
         "prettier",
         "black",
         "isort",
-        
+
         -- Linters
         "eslint_d",
         "luacheck",
@@ -34,8 +34,8 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        "bash", "c", "cpp", "css", "html", "javascript", "json", "lua", 
-        "luadoc", "luap", "markdown", "markdown_inline", "python", 
+        "bash", "c", "cpp", "css", "html", "javascript", "json", "lua",
+        "luadoc", "luap", "markdown", "markdown_inline", "python",
         "query", "regex", "rust", "tsx", "typescript", "vim", "vimdoc", "yaml",
       },
       highlight = { enable = true, additional_vim_regex_highlighting = false },
@@ -61,9 +61,9 @@ return {
           lua = "rainbow-blocks",
         },
         highlight = {
-          "RainbowDelimiterRed", "RainbowDelimiterYellow", 
-          "RainbowDelimiterBlue", "RainbowDelimiterOrange", 
-          "RainbowDelimiterGreen", "RainbowDelimiterViolet", 
+          "RainbowDelimiterRed", "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue", "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen", "RainbowDelimiterViolet",
           "RainbowDelimiterCyan",
         },
       }
@@ -140,22 +140,22 @@ return {
       -- Avoid double configuration
       if _G.cmp_configured then return end
       _G.cmp_configured = true
-      
+
       local cmp = require("cmp")
       local lspkind = require("lspkind")
       local luasnip = require("luasnip")
-      
+
       -- Setup completion
       cmp.setup({
         completion = { completeopt = "menu,menuone,noinsert" },
-        
+
         -- Snippet handling
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
           end,
         },
-        
+
         -- Keymappings
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -170,7 +170,7 @@ return {
             select = true,
           }),
         }),
-        
+
         -- Completion sources in priority order
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
@@ -178,7 +178,7 @@ return {
           { name = "buffer" },
           { name = "path" },
         }),
-        
+
         -- Formatting with icons
         formatting = {
           format = lspkind.cmp_format({
@@ -196,7 +196,7 @@ return {
             },
           }),
         },
-        
+
         -- Window appearance
         window = {
           completion = {
@@ -213,21 +213,21 @@ return {
             max_height = 12,
           },
         },
-        
+
         experimental = { ghost_text = false },
       })
-      
+
       -- Luasnip configuration
       luasnip.config.setup({
         history = true,
         delete_check_events = "TextChanged",
       })
-      
+
       -- Setup luasnip keymaps
       vim.keymap.set("i", "<Tab>", function()
         return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<Tab>"
       end, { expr = true, silent = true })
-      
+
       vim.keymap.set("s", "<Tab>", function() luasnip.jump(1) end)
       vim.keymap.set({"i", "s"}, "<S-Tab>", function() luasnip.jump(-1) end)
     end,
@@ -248,7 +248,7 @@ return {
   -- Git Integration
   -------------------------------
 
-  -- Git signs 
+  -- Git signs
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
@@ -286,7 +286,7 @@ return {
         -- Navigation
         map("n", "]h", gs.next_hunk, "Next Hunk")
         map("n", "[h", gs.prev_hunk, "Prev Hunk")
-        
+
         -- Actions
         map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
         map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
@@ -297,13 +297,13 @@ return {
         map("n", "<leader>hb", function() gs.blame_line { full = true } end, "Blame Line")
         map("n", "<leader>hd", gs.diffthis, "Diff This")
         map("n", "<leader>hD", function() gs.diffthis("~") end, "Diff This ~")
-        
+
         -- Text objects
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
       end,
     },
   },
-  
+
   -- Full Git integration
   {
     "tpope/vim-fugitive",
@@ -315,14 +315,14 @@ return {
       { "<leader>gd", "<cmd>Gdiffsplit<cr>", desc = "Git Diff" },
     },
   },
-  
+
   -- GitHub integration
   {
     "tpope/vim-rhubarb",
     cmd = { "GBrowse" },
     dependencies = { "tpope/vim-fugitive" },
   },
-  
+
   -- Diffview
   {
     "sindrets/diffview.nvim",
@@ -358,6 +358,7 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "isort", "black" },
+        go = { "goimports" },
         javascript = { { "prettierd", "prettier" } },
         typescript = { { "prettierd", "prettier" } },
         javascriptreact = { { "prettierd", "prettier" } },
@@ -369,14 +370,6 @@ return {
         markdown = { { "prettierd", "prettier" } },
         yaml = { { "prettierd", "prettier" } },
       },
-      format_on_save = function(bufnr)
-        -- Only format on save for some filetypes
-        local filetype = vim.bo[bufnr].filetype
-        if vim.tbl_contains({ "lua", "javascript", "typescript", "json", "html", "css" }, filetype) then
-          return { timeout_ms = 500, lsp_fallback = true }
-        end
-        return false
-      end,
       formatters = {
         stylua = {
           prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
@@ -387,7 +380,7 @@ return {
       },
     },
   },
-  
+
   -- Linting
   {
     "mfussenegger/nvim-lint",
@@ -421,21 +414,21 @@ return {
     config = function(_, opts)
       local lint = require("lint")
       lint.linters_by_ft = opts.linters_by_ft
-      
+
       -- Apply custom linter configurations
       for name, config in pairs(opts.linters or {}) do
         if type(config) == "table" and lint.linters[name] then
           lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], config)
         end
       end
-      
+
       -- Create autocmd to lint on events
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         callback = function()
           lint.try_lint()
         end,
       })
-      
+
       -- Create command to manually trigger linting
       vim.api.nvim_create_user_command("Lint", function()
         lint.try_lint()

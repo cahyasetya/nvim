@@ -52,6 +52,7 @@ return {
         },
         jsonls = {}, -- A simple server, good for testing
         pyright = {},
+        gopls = {},
       },
     },
     config = function(_, opts)
