@@ -1,3 +1,9 @@
+-- Custom navigation keymaps
+-- gb: Go Back to previous cursor location (across files)
+-- gn: Go Next to next cursor location (across files)
+vim.keymap.set("n", "gb", "<C-o>", { noremap = true, silent = true, desc = "Go back to previous cursor location" })
+vim.keymap.set("n", "gn", "<C-i>", { noremap = true, silent = true, desc = "Go forward to next cursor location" })
+
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here

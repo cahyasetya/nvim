@@ -51,12 +51,56 @@ return {
           },
         },
         jsonls = {}, -- A simple server, good for testing
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = "basic",
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+              },
+              -- Python formatter settings using new settings format
+              formatter = {
+                provider = "black",
+                args = {"--line-length", "88"},
+              },
+              linting = {
+                enabled = true,
+                pylintEnabled = false,
+                flake8Enabled = true,
+                flake8Args = {"--indent-size=2"},
+              },
+            },
+          },
+        },
         gopls = {},
         clojure_lsp = {}
       },
     },
     config = function(_, opts)
+      -- Define a custom on_attach function to run when LSP is attached to a buffer
+      local on_attach = function(client, bufnr)
+        -- Enable completion triggered by <c-x><c-o>
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+        -- Buffer local mappings
+        local map = function(mode, lhs, rhs, desc)
+          local options = { noremap = true, silent = true, buffer = bufnr, desc = desc }
+          vim.keymap.set(mode, lhs, rhs, options)
+        end
+        
+        -- LSP keybindings
+        map('n', 'gD', vim.lsp.buf.declaration, "Go to declaration")
+        map('n', 'gd', vim.lsp.buf.definition, "Go to definition")
+        map('n', 'K', vim.lsp.buf.hover, "Show documentation")
+        map('n', 'gi', vim.lsp.buf.implementation, "Go to implementation")
+        map('n', 'gr', vim.lsp.buf.references, "Find references")
+        map('n', '<C-k>', vim.lsp.buf.signature_help, "Show signature help")
+        map('n', '<leader>rn', vim.lsp.buf.rename, "Rename symbol")
+        map('n', '<leader>ca', vim.lsp.buf.code_action, "Code action")
+      end
+
       local lspconfig = require("lspconfig")
       -- Basic capabilities; we'll add cmp_nvim_lsp capabilities back later
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -71,6 +115,7 @@ return {
 
           local final_server_opts = vim.tbl_deep_extend("force", {
             capabilities = vim.deepcopy(capabilities),
+            on_attach = on_attach,
           }, server_settings)
 
           lspconfig[server_name].setup(final_server_opts)
