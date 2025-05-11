@@ -9,8 +9,11 @@ local M = {
   -- UI components
   { import = "plugins.ui" },       -- UI components and themes
   
-  -- Coding tools
-  { import = "plugins.coding" },   -- Language support and coding features
+  -- Coding tools (using the unified file)
+  { import = "plugins.coding_unified" },  -- All coding tools in one file
+  
+  -- LSP configuration
+  { import = "plugins.lsp" },      -- LSP configuration
   
   -- Additional tools
   { import = "plugins.tools" },    -- Utilities and extensions

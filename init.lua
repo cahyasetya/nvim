@@ -1,3 +1,13 @@
+-- Basic diagnostic configuration that won't cause errors
+vim.diagnostic.config({
+  signs = false, -- No signs in the sign column
+  underline = true,
+  virtual_text = false, -- Disable virtual text initially
+  float = {
+    border = "rounded",
+  },
+})
+
 -- Organized Neovim Configuration for Ghostty
 -- This configuration is organized into categories for better maintenance
 
@@ -52,24 +62,7 @@ end, 100)
 vim.defer_fn(function()
   -- Disable sign column completely
   vim.opt.signcolumn = "no"
-
-  -- Configure diagnostic settings directly to avoid errors
-  vim.diagnostic.config({
-    signs = false,
-    underline = true,
-    update_in_insert = false,
-    virtual_text = {
-      spacing = 4,
-      source = "if_many",
-      prefix = "●",
-    },
-    severity_sort = true,
-    float = {
-      border = "rounded",
-      source = "if_many",
-    },
-  })
-
+  
   -- Override ANY potential highlight groups that could be causing the blue bar
   vim.cmd([[
     highlight clear SignColumn
