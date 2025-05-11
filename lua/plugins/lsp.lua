@@ -53,6 +53,7 @@ return {
         jsonls = {}, -- A simple server, good for testing
         pyright = {},
         gopls = {},
+        clojure_lsp = {}
       },
     },
     config = function(_, opts)

@@ -21,7 +21,7 @@ return {
         "flake8",
       },
       auto_update = false,
-      run_on_start = false,  -- Only install when manually triggered
+      run_on_start = false, -- Only install when manually triggered
     },
   },
 
@@ -34,9 +34,27 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        "bash", "c", "cpp", "css", "html", "javascript", "json", "lua",
-        "luadoc", "luap", "markdown", "markdown_inline", "python",
-        "query", "regex", "rust", "tsx", "typescript", "vim", "vimdoc", "yaml",
+        "bash",
+        "c",
+        "cpp",
+        "css",
+        "html",
+        "javascript",
+        "json",
+        "lua",
+        "luadoc",
+        "luap",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "regex",
+        "rust",
+        "tsx",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "yaml",
       },
       highlight = { enable = true, additional_vim_regex_highlighting = false },
       indent = { enable = true },
@@ -61,9 +79,12 @@ return {
           lua = "rainbow-blocks",
         },
         highlight = {
-          "RainbowDelimiterRed", "RainbowDelimiterYellow",
-          "RainbowDelimiterBlue", "RainbowDelimiterOrange",
-          "RainbowDelimiterGreen", "RainbowDelimiterViolet",
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
           "RainbowDelimiterCyan",
         },
       }
@@ -100,8 +121,14 @@ return {
         css = { css = true, css_fn = true },
         html = { names = true },
       }, {
-        RGB = true, RRGGBB = true, names = false, RRGGBBAA = true,
-        rgb_fn = true, hsl_fn = true, css = true, css_fn = true,
+        RGB = true,
+        RRGGBB = true,
+        names = false,
+        RRGGBBAA = true,
+        rgb_fn = true,
+        hsl_fn = true,
+        css = true,
+        css_fn = true,
         mode = "background",
       })
     end,
@@ -138,7 +165,9 @@ return {
     },
     config = function()
       -- Avoid double configuration
-      if _G.cmp_configured then return end
+      if _G.cmp_configured then
+        return
+      end
       _G.cmp_configured = true
 
       local cmp = require("cmp")
@@ -186,12 +215,30 @@ return {
             maxwidth = 50,
             ellipsis_char = "...",
             symbol_map = {
-              Text = "󰉿", Method = "󰆧", Function = "󰊕", Constructor = "",
-              Field = "󰜢", Variable = "󰀫", Class = "󰠱", Interface = "",
-              Module = "", Property = "󰜢", Unit = "󰑭", Value = "󰎠",
-              Enum = "", Keyword = "󰌋", Snippet = "", Color = "󰏘",
-              File = "󰈙", Reference = "󰈇", Folder = "󰉋", EnumMember = "",
-              Constant = "󰏿", Struct = "󰙅", Event = "", Operator = "󰆕",
+              Text = "󰉿",
+              Method = "󰆧",
+              Function = "󰊕",
+              Constructor = "",
+              Field = "󰜢",
+              Variable = "󰀫",
+              Class = "󰠱",
+              Interface = "",
+              Module = "",
+              Property = "󰜢",
+              Unit = "󰑭",
+              Value = "󰎠",
+              Enum = "",
+              Keyword = "󰌋",
+              Snippet = "",
+              Color = "󰏘",
+              File = "󰈙",
+              Reference = "󰈇",
+              Folder = "󰉋",
+              EnumMember = "",
+              Constant = "󰏿",
+              Struct = "󰙅",
+              Event = "",
+              Operator = "󰆕",
               TypeParameter = "",
             },
           }),
@@ -228,8 +275,12 @@ return {
         return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<Tab>"
       end, { expr = true, silent = true })
 
-      vim.keymap.set("s", "<Tab>", function() luasnip.jump(1) end)
-      vim.keymap.set({"i", "s"}, "<S-Tab>", function() luasnip.jump(-1) end)
+      vim.keymap.set("s", "<Tab>", function()
+        luasnip.jump(1)
+      end)
+      vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+        luasnip.jump(-1)
+      end)
     end,
   },
 
@@ -253,7 +304,7 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
     opts = {
-      signcolumn = false,  -- Disable signs in signcolumn since we don't use it
+      signcolumn = false, -- Disable signs in signcolumn since we don't use it
       signs = {
         add = { text = "▎" },
         change = { text = "▎" },
@@ -294,9 +345,13 @@ return {
         map("n", "<leader>hu", gs.undo_stage_hunk, "Undo Stage Hunk")
         map("n", "<leader>hR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
-        map("n", "<leader>hb", function() gs.blame_line { full = true } end, "Blame Line")
+        map("n", "<leader>hb", function()
+          gs.blame_line({ full = true })
+        end, "Blame Line")
         map("n", "<leader>hd", gs.diffthis, "Diff This")
-        map("n", "<leader>hD", function() gs.diffthis("~") end, "Diff This ~")
+        map("n", "<leader>hD", function()
+          gs.diffthis("~")
+        end, "Diff This ~")
 
         -- Text objects
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
@@ -359,6 +414,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         go = { "goimports" },
+        clojure = { "cljfmt" },
         javascript = { { "prettierd", "prettier" } },
         typescript = { { "prettierd", "prettier" } },
         javascriptreact = { { "prettierd", "prettier" } },
