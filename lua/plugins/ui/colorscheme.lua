@@ -72,8 +72,8 @@ return {
         highlights.PmenuSbar = { bg = colors.bg_dark }
         highlights.PmenuThumb = { bg = colors.dark5 }
         
-        -- Enhance cursor line/column
-        highlights.CursorLine = { bg = colors.bg_highlight, blend = 10 }
+        -- Ensure cursor line is completely transparent
+        highlights.CursorLine = { bg = "NONE" }
         highlights.ColorColumn = { bg = colors.bg_highlight, blend = 10 }
         
         -- Dashboard specific highlights

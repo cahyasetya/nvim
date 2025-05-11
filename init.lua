@@ -58,6 +58,9 @@ vim.defer_fn(function()
   pcall(function() require("config.ghostty-welcome").setup() end)
 end, 100)
 
+-- Disable cursor line highlighting completely
+vim.opt.cursorline = false
+
 -- Final override to ensure no blue bar on the left of line numbers
 vim.defer_fn(function()
   -- Disable sign column completely

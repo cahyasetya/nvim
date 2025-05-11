@@ -16,8 +16,8 @@ function M.setup()
   -- No wrapping
   vim.opt.wrap = false
   
-  -- Enable cursor line highlighting
-  vim.opt.cursorline = true
+  -- Disable cursor line highlighting completely
+  vim.opt.cursorline = false
   
   -- Show signcolumn (for git signs, etc)
   vim.opt.signcolumn = "yes"
