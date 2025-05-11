@@ -3,6 +3,11 @@
 
 -- Load plugin categories in sequence
 local M = {
+  -- Disable scrolling plugins that break gg and Shift+G
+  { "karb94/neoscroll.nvim", enabled = false },
+  { "echasnovski/mini.animate", enabled = false },
+  { "gen740/SmoothCursor.nvim", enabled = false },
+  
   -- Core/essential plugins first
   { import = "plugins.editor" },   -- Basic editor functionality
   
