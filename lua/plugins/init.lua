@@ -25,6 +25,12 @@ local M = {
   
   -- Ghostty integration
   { import = "plugins.ghostty" },  -- Ghostty terminal integration
+  
+  -- Our improved plugins
+  { import = "plugins.git" },                -- Enhanced Git integration
+  { import = "plugins.indent-guides" },      -- Better indent guides
+  { import = "plugins.signature" },          -- Function signature hints
+  { import = "plugins.scrollbar" },          -- Scrollbar with code minimap
 }
 
 return M
